@@ -19,7 +19,7 @@ def SLDF_REML(
     X: ndarray,      # covariate matrix
     y: ndarray,      # phenotype vector
     m: int,          # number of markers
-    ZZ = False,      # (optional) precomputed GRM
+    ZZ = None,      # (optional) precomputed GRM
     s2max = .7,      # maximal heritable VC value
     s2min = .1,      # minimal heritable VC value
     n_V = 15,        # number of random probes
@@ -41,7 +41,7 @@ def SLDF_REML(
 
     ## construct implicit GRM if needed,
     ## ensuring division by m occurs after matvecs
-    if isinstance(ZZ, bool):
+    if ZZ is None:
         grmPrecomputed = False
         def ZZ_mv(v): return (Z @ (Z.T @ v))/m
         ZZ_proj = spla.LinearOperator((n,n), matmat = ZZ_mv, matvec = ZZ_mv)
